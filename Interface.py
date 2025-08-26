@@ -4,11 +4,13 @@ import os
 from colorama import init as colorama_init
 from colorama import Fore
 from colorama import Style
+import readline
 
 # colorama lets terminal text be coloured
 colorama_init()
+
+# initialises dictionary
 dictionary = Dictionary()
-done = False
 
 def printList(list):
     for i,item in enumerate(list):
@@ -21,6 +23,7 @@ cmd_info = {"define": {"cmd":"define", "name":"define", "plural":"definitions",
             "antonym": {"cmd":"ant", "name":"antonym", "plural":"antonyms",
                         "function":dictionary.getAntonyms}}
 
+done = False
 
 while not done:
     # bit that appears at the start of each line in the terminal
@@ -35,6 +38,7 @@ while not done:
     args = cmd_parts[1:]
 
     match cmd:
+        # defines a given word
         case "define":
             result = Handlers.handleCmd(cmd_info["define"], args)
             if type(result) == str:
@@ -42,6 +46,7 @@ while not done:
             else:
                 printList(result)
 
+        # finds synonyms for a given word
         case "syn":
             result = Handlers.handleCmd(cmd_info["synonym"], args)
             if type(result) == str:
@@ -49,6 +54,7 @@ while not done:
             else:
                 printList(result)
 
+        # finds antonyms for a given word
         case "ant":
             result = Handlers.handleCmd(cmd_info["antonym"], args)
             if type(result) == str:
@@ -56,11 +62,41 @@ while not done:
             else:
                 printList(result)
 
+        # shows definitions, synonyms and antonyms
         case "all":
-            print("ALL")
+            print("Definitions:")
+            result = Handlers.handleCmd(cmd_info["define"], args)
+            if type(result) == str:
+                print(result)
+            else:
+                printList(result)
+
+            print("\nSynonyms: ")
+            result = Handlers.handleCmd(cmd_info["synonym"], args)
+            if type(result) == str:
+                print(result)
+            else:
+                printList(result)
+
+            print("\nAntonyms: ")
+            result = Handlers.handleCmd(cmd_info["antonym"], args)
+            if type(result) == str:
+                print(result)
+            else:
+                printList(result)
 
         case "clear":
             os.system('clear')
+
+        case "help":
+            print("Type 'help' to see this list")
+            print("type 'help name' to learn more about the function 'name'\n")
+            print("define [WORD] [OPTION]...")
+            print("syn [WORD] [OPTION]...")
+            print("ant [WORD] [OPTION]...")
+            print("all [WORD] [OPTION]...")
+            print("clear")
+            print("exit")
 
         case "exit":
             done = True

@@ -1,3 +1,10 @@
+from Dictionary import Dictionary
+
+
+# returns -1 for command with no args
+# returns -2 for command with no results
+# if there is a nonsense argument it returns the first one
+# if nothing is wrong it returns a list of items fitting the given options
 def handleRequest(request, args):
     if not args:
         return -1
@@ -7,9 +14,12 @@ def handleRequest(request, args):
             return -2
         
         aFlag = False
+        eFlag = False
         for arg in args[1:]:
             if arg == "-a":
                 aFlag = True
+            elif arg == "-e" and request == Dictionary.define:
+                eFlag = True
             else:
                 return arg
 
@@ -19,7 +29,7 @@ def handleRequest(request, args):
         return items
 
 
-# returns a string to be printed to the terminal
+# returns a string to be printed to the terminal, or a list of results to be printed later
 def handleCmd(cmd_info, args):
     results = handleRequest(cmd_info['function'], args)
     if results == -1:
