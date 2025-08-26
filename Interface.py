@@ -1,7 +1,12 @@
 from Dictionary import Dictionary
 import Handlers
 import os
+from colorama import init as colorama_init
+from colorama import Fore
+from colorama import Style
 
+# colorama lets terminal text be coloured
+colorama_init()
 dictionary = Dictionary()
 done = False
 
@@ -9,10 +14,19 @@ def printList(list):
     for i,item in enumerate(list):
         print(f"{i+1}. {item}")
 
+cmd_info = {"define": {"cmd":"define", "name":"define", "plural":"definitions",
+                       "function":dictionary.define},
+            "synonym": {"cmd":"syn", "name":"synonym", "plural":"synonyms",
+                        "function":dictionary.getSynonyms},
+            "antonym": {"cmd":"ant", "name":"antonym", "plural":"antonyms",
+                        "function":dictionary.getAntonyms}}
+
 
 while not done:
-    command_inp = input("wordy> ")
+    # bit that appears at the start of each line in the terminal
+    command_inp = input(f"{Fore.GREEN}wordy> {Style.RESET_ALL}")
     cmd_parts = command_inp.split()
+
     # if user just presses enter the while loop starts again
     if not cmd_parts:
         continue
@@ -22,35 +36,25 @@ while not done:
 
     match cmd:
         case "define":
-            definitions = Handlers.handleDefine(dictionary,args)
-            match definitions:
-                case -1:
-                    print("Usage: define [WORD]")
-                case -2:
-                    print(f"No definitions found for {args[0]}")
+            result = Handlers.handleCmd(cmd_info["define"], args)
+            if type(result) == str:
+                print(result)
+            else:
+                printList(result)
 
         case "syn":
-            if not args:
-                print("Usage: syn [WORD]")
+            result = Handlers.handleCmd(cmd_info["synonym"], args)
+            if type(result) == str:
+                print(result)
             else:
-                synonyms = dictionary.getSynonyms(args[0])
-                if not synonyms:
-                    print(f"No synonyms found for {args[0]}")
-                else:
-                    if len(synonyms) > 10:
-                        printList(synonyms[:11])
-                    else:
-                        printList(synonyms)
+                printList(result)
 
         case "ant":
-            if not args:
-                print("Usage: ant [WORD]")
+            result = Handlers.handleCmd(cmd_info["antonym"], args)
+            if type(result) == str:
+                print(result)
             else:
-                antonyms = dictionary.getAntonyms(args[0])
-                if not antonyms:
-                    print(f"No antonyms found for {args[0]}")
-                else:
-                    printList(antonyms)
+                printList(result)
 
         case "all":
             print("ALL")
