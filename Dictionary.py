@@ -26,9 +26,9 @@ class Dictionary:
         if not synsets:
             return False
         
-        synonyms = set()
+        synonyms = []
         for syn in synsets:
-            synonyms += set(lemma.name() for lemma in syn.lemmas())
+            synonyms.append(lemma.name() for lemma in syn.lemmas() if lemma.name() not in synonyms)
 
         return synonyms
     
@@ -39,9 +39,9 @@ class Dictionary:
         if not synsets:
             return False
         
-        antonyms = set()
+        antonyms = []
         for syn in synsets:
             for lemma in syn.lemmas():
-                antonyms += set(ant.name() for ant in lemma.antonyms())
+                antonyms.append(ant.name() for ant in lemma.antonyms() if ant.name() not in antonyms)
         
         return antonyms
