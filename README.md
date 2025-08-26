@@ -1,2 +1,2 @@
 Credits:
-List of words from 'https://github.com/dwyl/english-words'
+Princeton WordNet used for definitions, synonyms and antonyms
