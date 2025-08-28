@@ -16,9 +16,9 @@ def handleRequest(request, args):
         aFlag = False
         eFlag = False
         for arg in args[1:]:
-            if arg == "-a":
+            if arg == "-a" or arg == "--all":
                 aFlag = True
-            elif arg == "-e" and request == Dictionary.define:
+            elif (arg == "-e" or arg == "--examples") and request == Dictionary.define:
                 eFlag = True
             else:
                 return arg

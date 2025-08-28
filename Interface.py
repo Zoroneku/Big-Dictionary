@@ -16,6 +16,9 @@ def printList(list):
     for i,item in enumerate(list):
         print(f"{i+1}. {item}")
 
+def printBold(string):
+    print(f"{Style.BRIGHT}{string}{Style.RESET_ALL}")
+
 cmd_info = {"define": {"cmd":"define", "name":"define", "plural":"definitions",
                        "function":dictionary.define},
             "synonym": {"cmd":"syn", "name":"synonym", "plural":"synonyms",
@@ -89,14 +92,69 @@ while not done:
             os.system('clear')
 
         case "help":
-            print("Type 'help' to see this list")
-            print("type 'help name' to learn more about the function 'name'\n")
-            print("define [WORD] [OPTION]...")
-            print("syn [WORD] [OPTION]...")
-            print("ant [WORD] [OPTION]...")
-            print("all [WORD] [OPTION]...")
-            print("clear")
-            print("exit")
+            if not args:
+                print("Type 'help' to see this list")
+                print("type 'help name' to learn more about the function 'name'\n")
+                print(" define [WORD] [OPTION]...")
+                print(" syn [WORD] [OPTION]...")
+                print(" ant [WORD] [OPTION]...")
+                print(" all [WORD] [OPTION]...")
+                print(" clear")
+                print(" exit")
+            else:
+                match args[0]:
+                    case "define":
+                        printBold("NAME")
+                        print("\tdefine - gets a list of definitions for a given word\n")
+                        printBold("SYNOPSIS")
+                        print("\tdefine [WORD] [OPTION]...\n")
+                        printBold("DESCRIPTION")
+                        print("\tLists the top 3 definitions of the word by default, sorted by order of relevancy according to WordNet\n")
+                        printBold("\t-a, --all")
+                        print("\t\tlist all known definitions")
+                    case "syn":
+                        printBold("NAME")
+                        print("\tsyn - gets a list of synonyms for a given word\n")
+                        printBold("SYNOPSIS")
+                        print("\tsyn [WORD] [OPTION]...\n")
+                        printBold("DESCRIPTION")
+                        print("\tLists the top 3 synonyms of the word by default, sorted by order of relevancy according to WordNet\n")
+                        printBold("\t-a, --all")
+                        print("\t\tlist all known synonyms")
+                    case "ant":
+                        printBold("NAME")
+                        print("\tant - gets a list of synonyms for a given word\n")
+                        printBold("SYNOPSIS")
+                        print("\tant [WORD] [OPTION]...\n")
+                        printBold("DESCRIPTION")
+                        print("\tLists the top 3 antonyms of the word by default, sorted by order of relevancy according to WordNet\n")
+                        printBold("\t-a, --all")
+                        print("\t\tlist all known antonyms")
+                    case "all":
+                        printBold("NAME")
+                        print("\tall - gets definitions, synonyms and antonyms for a given word\n")
+                        printBold("SYNOPSIS")
+                        print("\tall [WORD] [OPTION]...\n")
+                        printBold("DESCRIPTION")
+                        print("\tLists the top 3 definitions, synonyms and antonyms of the word by default, sorted by order of relevancy according to WordNet\n")
+                        printBold("\t-a, --all")
+                        print("\t\tlist all known definitions, synonyms and antonyms")
+                    case "clear":
+                        printBold("NAME")
+                        print("\tclear - clears the screen\n")
+                        printBold("SYNOPSIS")
+                        print("\tclear\n")
+                        printBold("DESCRIPTION")
+                        print("\tJust clears the screen")
+                    case "exit":
+                        printBold("NAME")
+                        print("\texit - exits the program\n")
+                        printBold("SYNOPSIS")
+                        print("\texit\n")
+                        printBold("DESCRIPTION")
+                        print("\tJust exits the program")
+                    case _:
+                        print(f"No help entry for {args[0]}")
 
         case "exit":
             done = True
